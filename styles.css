@@ -1,7 +1,7 @@
 :root {
     --color-primario: #6C63FF;
     --color-secundario: #FF6584;
-    --color-fondo: #F8F9FA;
+    --color-fondo: #f6faff;
     --color-texto: #2C3E50;
     --color-borde: #E9ECEF;
     --color-exito: #28A745;
@@ -651,11 +651,12 @@ button[type="submit"]:hover {
 }
 
 footer {
-    background: var(--color-texto);
-    color: white;
+    background-color: white;
+    color: black;
     text-align: center;
     padding: 1rem;
-    margin-top: auto;
+    margin-top: 2rem;
+    border-top: 1px solid #ddd;
 }
 
 .notificacion {
