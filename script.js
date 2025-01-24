@@ -303,13 +303,19 @@ class AlergiTrackApp {
                 ${reaccionesDia.length > 0 ? `
                     <h4>Reacciones</h4>
                     ${reaccionesDia.map(r => `
-                        <div class="detalle-reaccion">
-                            <p><strong>Alérgeno:</strong> ${r.alergeno}</p>
-                            <p><strong>Gravedad:</strong> ${r.gravedad}</p>
-                            <p><strong>Hora toma:</strong> ${r.horaToma}</p>
-                            <p><strong>Hora reacción:</strong> ${r.horaReaccion}</p>
-                            ${r.alimento ? `<p><strong>Alimento:</strong> ${r.alimento}</p>` : ''}
-                            ${r.notas ? `<p><strong>Notas:</strong> ${r.notas}</p>` : ''}
+                        <div class="detalle-reaccion" data-id="${r.id}">
+                            <div class="detalle-contenido">
+                                <p><strong>Alérgeno:</strong> ${r.alergeno}</p>
+                                <p><strong>Gravedad:</strong> ${r.gravedad}</p>
+                                <p><strong>Hora toma:</strong> ${r.horaToma}</p>
+                                <p><strong>Hora reacción:</strong> ${r.horaReaccion}</p>
+                                ${r.alimento ? `<p><strong>Alimento:</strong> ${r.alimento}</p>` : ''}
+                                ${r.notas ? `<p><strong>Notas:</strong> ${r.notas}</p>` : ''}
+                            </div>
+                            <div class="controles-reaccion">
+                                <button class="editar-reaccion">✏️ Editar</button>
+                                <button class="eliminar-reaccion">🗑️ Eliminar</button>
+                            </div>
                         </div>
                     `).join('')}
                 ` : '<p>No hay reacciones registradas para este día</p>'}
@@ -317,10 +323,16 @@ class AlergiTrackApp {
                 ${insensibilizacionesDia.length > 0 ? `
                     <h4>Insensibilizaciones</h4>
                     ${insensibilizacionesDia.map(i => `
-                        <div class="detalle-insensibilizacion">
-                            <p><strong>Hora:</strong> ${i.hora}</p>
-                            <p><strong>Dosis:</strong> ${i.dosis} mg</p>
-                            ${i.observaciones ? `<p><strong>Observaciones:</strong> ${i.observaciones}</p>` : ''}
+                        <div class="detalle-insensibilizacion" data-id="${i.id}">
+                            <div class="detalle-contenido">
+                                <p><strong>Hora:</strong> ${i.hora}</p>
+                                <p><strong>Dosis:</strong> ${i.dosis} mg</p>
+                                ${i.observaciones ? `<p><strong>Observaciones:</strong> ${i.observaciones}</p>` : ''}
+                            </div>
+                            <div class="controles-insensibilizacion">
+                                <button class="editar-insensibilizacion">✏️ Editar</button>
+                                <button class="eliminar-insensibilizacion">🗑️ Eliminar</button>
+                            </div>
                         </div>
                     `).join('')}
                 ` : '<p>No hay insensibilizaciones registradas para este día</p>'}
@@ -339,7 +351,171 @@ class AlergiTrackApp {
             }
         });
 
+        // Agregar listeners para botones de eliminar
+        modal.querySelectorAll('.eliminar-reaccion').forEach(button => {
+            button.addEventListener('click', (e) => {
+                if (confirm('¿Estás seguro de que deseas eliminar esta reacción?')) {
+                    const id = parseInt(e.target.closest('.detalle-reaccion').dataset.id);
+                    this.eliminarReaccion(id);
+                    modal.remove();
+                }
+            });
+        });
+
+        modal.querySelectorAll('.eliminar-insensibilizacion').forEach(button => {
+            button.addEventListener('click', (e) => {
+                if (confirm('¿Estás seguro de que deseas eliminar esta insensibilización?')) {
+                    const id = parseInt(e.target.closest('.detalle-insensibilizacion').dataset.id);
+                    this.eliminarInsensibilizacion(id);
+                    modal.remove();
+                }
+            });
+        });
+
+        // Agregar listeners para botones de editar
+        modal.querySelectorAll('.editar-reaccion').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = parseInt(e.target.closest('.detalle-reaccion').dataset.id);
+                const reaccion = this.reacciones.find(r => r.id === id);
+                this.mostrarFormularioEdicionReaccion(reaccion, modal);
+            });
+        });
+
+        modal.querySelectorAll('.editar-insensibilizacion').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = parseInt(e.target.closest('.detalle-insensibilizacion').dataset.id);
+                const insensibilizacion = this.insensibilizaciones.find(i => i.id === id);
+                this.mostrarFormularioEdicionInsensibilizacion(insensibilizacion, modal);
+            });
+        });
+
         document.body.appendChild(modal);
+    }
+
+    mostrarFormularioEdicionReaccion(reaccion, modal) {
+        const form = document.createElement('form');
+        form.className = 'form-edicion';
+        form.innerHTML = `
+            <h4>Editar Reacción</h4>
+            <label>Alérgeno:</label>
+            <input type="text" name="alergeno" value="${reaccion.alergeno}" required>
+            
+            <label>Gravedad:</label>
+            <select name="gravedad" required>
+                <option value="leve" ${reaccion.gravedad === 'leve' ? 'selected' : ''}>Leve</option>
+                <option value="moderada" ${reaccion.gravedad === 'moderada' ? 'selected' : ''}>Moderada</option>
+                <option value="grave" ${reaccion.gravedad === 'grave' ? 'selected' : ''}>Grave</option>
+            </select>
+            
+            <label>Hora toma:</label>
+            <input type="time" name="horaToma" value="${reaccion.horaToma}" required>
+            
+            <label>Hora reacción:</label>
+            <input type="time" name="horaReaccion" value="${reaccion.horaReaccion}" required>
+            
+            <label>Alimento:</label>
+            <input type="text" name="alimento" value="${reaccion.alimento || ''}">
+            
+            <label>Notas:</label>
+            <textarea name="notas">${reaccion.notas || ''}</textarea>
+            
+            <button type="submit">Guardar cambios</button>
+            <button type="button" class="cancelar-edicion">Cancelar</button>
+        `;
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nuevosDatos = {
+                alergeno: form.alergeno.value.trim(),
+                gravedad: form.gravedad.value,
+                horaToma: form.horaToma.value,
+                horaReaccion: form.horaReaccion.value,
+                alimento: form.alimento.value.trim(),
+                notas: form.notas.value.trim()
+            };
+            this.editarReaccion(reaccion.id, nuevosDatos);
+            modal.remove();
+        });
+
+        form.querySelector('.cancelar-edicion').addEventListener('click', () => {
+            form.remove();
+        });
+
+        modal.querySelector('.modal-contenido').appendChild(form);
+    }
+
+    mostrarFormularioEdicionInsensibilizacion(insensibilizacion, modal) {
+        const form = document.createElement('form');
+        form.className = 'form-edicion';
+        form.innerHTML = `
+            <h4>Editar Insensibilización</h4>
+            <label>Fecha:</label>
+            <input type="date" name="fecha" value="${new Date(insensibilizacion.fecha).toISOString().split('T')[0]}" required>
+            
+            <label>Hora:</label>
+            <input type="time" name="hora" value="${insensibilizacion.hora}" required>
+            
+            <label>Dosis (mg):</label>
+            <input type="number" step="0.1" name="dosis" value="${insensibilizacion.dosis}" required>
+            
+            <label>Observaciones:</label>
+            <textarea name="observaciones">${insensibilizacion.observaciones || ''}</textarea>
+            
+            <button type="submit">Guardar cambios</button>
+            <button type="button" class="cancelar-edicion">Cancelar</button>
+        `;
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nuevosDatos = {
+                fecha: form.fecha.value,
+                hora: form.hora.value,
+                dosis: parseFloat(form.dosis.value),
+                observaciones: form.observaciones.value.trim()
+            };
+            this.editarInsensibilizacion(insensibilizacion.id, nuevosDatos);
+            modal.remove();
+        });
+
+        form.querySelector('.cancelar-edicion').addEventListener('click', () => {
+            form.remove();
+        });
+
+        modal.querySelector('.modal-contenido').appendChild(form);
+    }
+
+    eliminarReaccion(id) {
+        this.reacciones = this.reacciones.filter(r => r.id !== id);
+        this.guardarDatos();
+        this.renderCalendario();
+        this.mostrarNotificacion('Reacción eliminada correctamente');
+    }
+
+    editarReaccion(id, nuevosDatos) {
+        const index = this.reacciones.findIndex(r => r.id === id);
+        if (index !== -1) {
+            this.reacciones[index] = { ...this.reacciones[index], ...nuevosDatos };
+            this.guardarDatos();
+            this.renderCalendario();
+            this.mostrarNotificacion('Reacción actualizada correctamente');
+        }
+    }
+
+    editarInsensibilizacion(id, nuevosDatos) {
+        const index = this.insensibilizaciones.findIndex(i => i.id === id);
+        if (index !== -1) {
+            this.insensibilizaciones[index] = { ...this.insensibilizaciones[index], ...nuevosDatos };
+            this.guardarDatos();
+            this.renderCalendario();
+            this.mostrarNotificacion('Insensibilización actualizada correctamente');
+        }
+    }
+
+    eliminarInsensibilizacion(id) {
+        this.insensibilizaciones = this.insensibilizaciones.filter(i => i.id !== id);
+        this.guardarDatos();
+        this.renderCalendario();
+        this.mostrarNotificacion('Insensibilización eliminada correctamente');
     }
 
     mostrarNotificacion(mensaje) {
@@ -353,6 +529,39 @@ class AlergiTrackApp {
         }, 3000);
     }
 
+    eliminarReaccion(id) {
+        this.reacciones = this.reacciones.filter(r => r.id !== id);
+        this.guardarDatos();
+        this.renderCalendario();
+        this.mostrarNotificacion('Reacción eliminada correctamente');
+    }
+
+    editarReaccion(id, nuevosDatos) {
+        const index = this.reacciones.findIndex(r => r.id === id);
+        if (index !== -1) {
+            this.reacciones[index] = { ...this.reacciones[index], ...nuevosDatos };
+            this.guardarDatos();
+            this.renderCalendario();
+            this.mostrarNotificacion('Reacción actualizada correctamente');
+        }
+    }
+
+    eliminarInsensibilizacion(id) {
+        this.insensibilizaciones = this.insensibilizaciones.filter(i => i.id !== id);
+        this.guardarDatos();
+        this.renderCalendario();
+        this.mostrarNotificacion('Insensibilización eliminada correctamente');
+    }
+
+    editarInsensibilizacion(id, nuevosDatos) {
+        const index = this.insensibilizaciones.findIndex(i => i.id === id);
+        if (index !== -1) {
+            this.insensibilizaciones[index] = { ...this.insensibilizaciones[index], ...nuevosDatos };
+            this.guardarDatos();
+            this.renderCalendario();
+            this.mostrarNotificacion('Insensibilización actualizada correctamente');
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
