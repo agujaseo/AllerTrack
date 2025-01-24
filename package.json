@@ -1,0 +1,10 @@
+{
+  "name": "allertrack",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "serve"
+  },
+  "dependencies": {
+    "serve": "^14.0.0"
+  }
+}

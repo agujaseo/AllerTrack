@@ -1,0 +1,619 @@
+:root {
+    --color-primario: #6C63FF;
+    --color-secundario: #FF6584;
+    --color-fondo: #F8F9FA;
+    --color-texto: #2C3E50;
+    --color-borde: #E9ECEF;
+    --color-exito: #28A745;
+    --color-error: #DC3545;
+    --sombra: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --radio-borde: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+}
+
+header {
+    background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    box-shadow: var(--sombra);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.2s;
+    position: relative;
+}
+
+.tab-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.tab-button.active {
+    background: white;
+    color: var(--color-primario);
+    font-weight: 600;
+}
+
+.tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-primario);
+}
+
+.tabs {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 1.1rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.contenedor-principal {
+    flex: 1;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+#calendario-reacciones {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radio-borde);
+    box-shadow: var(--sombra);
+}
+
+.formulario-tab {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radio-borde);
+    box-shadow: var(--sombra);
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.formulario-tab h2 {
+    margin-bottom: 1.5rem;
+    color: var(--color-primario);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.formulario-tab h3 {
+    margin-bottom: 1.5rem;
+    color: var(--color-primario);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Estilos específicos para el formulario de insensibilización */
+.formulario-insensibilizacion .form-group {
+    margin-bottom: 1.2rem;
+}
+
+.formulario-insensibilizacion .form-group label {
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+}
+
+.formulario-insensibilizacion input[type="date"],
+.formulario-insensibilizacion input[type="time"] {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+}
+
+.formulario-insensibilizacion input[type="number"] {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+    -moz-appearance: textfield;
+}
+
+.formulario-insensibilizacion input[type="number"]::-webkit-outer-spin-button,
+.formulario-insensibilizacion input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.formulario-insensibilizacion textarea {
+    min-height: 100px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* Estilos para la sección de dosis */
+.dosis-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dosis-container input {
+    flex: 1;
+}
+
+.dosis-container span {
+    font-size: 0.9rem;
+    color: var(--color-texto);
+    opacity: 0.8;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primario);
+}
+
+.form-group input:invalid,
+.form-group select:invalid,
+.form-group textarea:invalid {
+    border-color: var(--color-error);
+    background-color: #fff5f5;
+    animation: shake 0.3s;
+}
+
+.form-group input:invalid:focus,
+.form-group select:invalid:focus,
+.form-group textarea:invalid:focus {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2);
+}
+
+.campo-invalido {
+    border-color: var(--color-error) !important;
+    background-color: #fff5f5 !important;
+    animation: shake 0.3s;
+}
+
+.campo-invalido:focus {
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2) !important;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Estilos para placeholders */
+::placeholder {
+    color: #ADB5BD;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #ADB5BD;
+}
+
+::-ms-input-placeholder {
+    color: #ADB5BD;
+}
+
+textarea::placeholder {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+button[type="submit"] {
+    background-color: var(--color-primario);
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--color-secundario);
+}
+
+.calendario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.calendario-header h3 {
+    font-size: 1.3rem;
+}
+
+.calendario-header div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.calendario-header button {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--color-primario);
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.calendario-header button:hover {
+    background-color: var(--color-fondo);
+}
+
+.dias-semana {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+#calendario {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.dia-calendario {
+    padding: 1rem;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--color-texto);
+    font-weight: 600;
+    background-color: white;
+    border: 1px solid var(--color-borde);
+    font-size: 1.1rem;
+}
+
+.dia-calendario:hover {
+    background-color: var(--color-fondo);
+}
+
+.dia-con-reaccion {
+    background-color: var(--color-primario);
+    color: white;
+    font-weight: 700;
+    border-color: var(--color-primario);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.dia-con-reaccion:hover {
+    background-color: var(--color-secundario);
+}
+
+.dia-con-insensibilizacion {
+    background-color: #28A745;
+    color: white;
+    font-weight: 700;
+    border-color: #28A745;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.dia-con-insensibilizacion:hover {
+    background-color: #218838;
+}
+
+.dia-con-reaccion.dia-con-insensibilizacion {
+    background: linear-gradient(135deg, var(--color-primario) 50%, #28A745 50%);
+    border-color: var(--color-primario);
+}
+
+.dia-con-reaccion.dia-con-insensibilizacion:hover {
+    background: linear-gradient(135deg, var(--color-secundario) 50%, #218838 50%);
+}
+
+.otro-mes {
+    color: #ADB5BD;
+    pointer-events: none;
+}
+
+/* Estilos para la sección de Historial */
+#historial-reacciones {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radio-borde);
+    box-shadow: var(--sombra);
+    margin-bottom: 2rem;
+}
+
+.historial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.historial-header h3 {
+    font-size: 1.3rem;
+    color: var(--color-primario);
+}
+
+.filtros-descarga {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+#periodo-filtro {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background: white;
+    color: var(--color-texto);
+    cursor: pointer;
+}
+
+#periodo-filtro:focus {
+    outline: none;
+    border-color: var(--color-primario);
+}
+
+#descargar-historico {
+    background-color: var(--color-primario);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#descargar-historico:hover {
+    background-color: var(--color-secundario);
+}
+
+#tabla-historial {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+#tabla-historial th,
+#tabla-historial td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+#tabla-historial th {
+    background-color: var(--color-fondo);
+    font-weight: 600;
+    color: var(--color-texto);
+}
+
+#tabla-historial tr:hover {
+    background-color: var(--color-fondo);
+}
+
+footer {
+    background: var(--color-texto);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+}
+
+.notificacion {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: var(--color-exito);
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--radio-borde);
+    animation: aparecer 0.3s ease-out;
+    max-width: 300px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.notificacion div {
+    margin-bottom: 0.5rem;
+}
+
+.notificacion div:last-child {
+    margin-bottom: 0;
+}
+
+@keyframes aparecer {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Estilos para el modal de detalles */
+.modal-detalles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-contenido {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radio-borde);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: var(--sombra);
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-texto);
+    padding: 0.5rem;
+    transition: color 0.2s;
+}
+
+.cerrar-modal:hover {
+    color: var(--color-primario);
+}
+
+.detalle-reaccion {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+.detalle-reaccion:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.detalle-reaccion p {
+    margin-bottom: 0.75rem;
+}
+
+.detalle-reaccion p:last-child {
+    margin-bottom: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .contenedor-principal {
+        grid-template-columns: 1fr;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1rem;
+    }
+}

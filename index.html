@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlergiTrack - Seguimiento de Alergias</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <img src="logo.svg" alt="Logo" class="logo">
+        <div>
+            <h1>AlergiaTrack</h1>
+        <div class="tabs">
+            <button class="tab-button active" data-tab="registro">Registro de Reacción</button>
+            <button class="tab-button" data-tab="insensibilizacion">Insensibilización</button>
+            <button class="tab-button" data-tab="historial">Historial</button>
+        </div>
+        </div>
+    </div>
+</header>
+
+    <main class="contenedor-principal">
+<section id="formulario-reaccion" class="tab-content active" data-tab="registro">
+            <h2>Registrar Nueva Reacción</h2>
+            <form id="form-reaccion" class="formulario-tab">
+                <div class="form-group">
+                    <label for="alergeno">Alérgeno:</label>
+                    <input type="text" id="alergeno" required placeholder="Ej: Polen, cacahuetes..." maxlength="50">
+                </div>
+                
+                <div class="form-group">
+                    <label for="hora-toma">Hora de toma:</label>
+                    <input type="time" id="hora-toma" required min="00:00" max="23:59">
+                </div>
+                
+                <div class="form-group">
+                    <label for="hora-reaccion">Hora de reacción:</label>
+                    <input type="time" id="hora-reaccion" required min="00:00" max="23:59">
+                </div>
+                
+                <div class="form-group">
+                    <label for="gravedad">Gravedad:</label>
+                    <select id="gravedad" required>
+                        <option value="leve">Leve</option>
+                        <option value="moderada">Moderada</option>
+                        <option value="grave">Grave</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="alimento">Alimento relacionado:</label>
+                    <input type="text" id="alimento" placeholder="Ej: Marisco, frutos secos..." maxlength="50">
+                </div>
+                
+                <div class="form-group">
+                    <label for="notas">Notas adicionales:</label>
+                    <textarea id="notas" rows="3" maxlength="200" placeholder="Descripción de los síntomas, tratamiento aplicado..."></textarea>
+                </div>
+                
+                <button type="submit">Registrar Reacción</button>
+            </form>
+</section>
+
+<section id="formulario-insensibilizacion" class="tab-content" data-tab="insensibilizacion">
+    <h3>Registro Diario de Insensibilización</h3>
+    <form id="form-insensibilizacion" class="formulario-tab">
+        <div class="form-group">
+            <label for="fecha-insensibilizacion">Fecha:</label>
+            <input type="date" id="fecha-insensibilizacion" required>
+        </div>
+        <div class="form-group">
+            <label for="hora-insensibilizacion">Hora:</label>
+            <input type="time" id="hora-insensibilizacion" required>
+        </div>
+        <div class="form-group">
+            <label for="dosis">Dosis:</label>
+            <input type="number" id="dosis" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="observaciones-insensibilizacion">Observaciones:</label>
+            <textarea id="observaciones-insensibilizacion" rows="3"></textarea>
+        </div>
+        <button type="submit">Guardar Registro</button>
+    </form>
+</section>
+
+        <section id="historial-reacciones" class="tab-content" data-tab="historial">
+            <div class="historial-header">
+                <h3>Historial de Reacciones</h3>
+                <div class="filtros-descarga">
+                    <select id="periodo-filtro">
+                        <option value="7">Últimos 7 días</option>
+                        <option value="30">Últimos 30 días</option>
+                        <option value="90">Últimos 3 meses</option>
+                        <option value="365">Último año</option>
+                        <option value="custom">Personalizado</option>
+                    </select>
+                    <button id="descargar-historico">Descargar Histórico</button>
+                </div>
+            </div>
+            <div id="tabla-historial"></div>
+        </section>
+
+        <section id="calendario-reacciones">
+            <div class="calendario-header">
+                <h3>Calendario de Reacciones</h3>
+                <div>
+                    <button id="mes-anterior">‹</button>
+                    <span id="mes-actual"></span>
+                    <button id="mes-siguiente">›</button>
+                </div>
+            </div>
+            
+            <div class="dias-semana">
+                <div>Lun</div>
+                <div>Mar</div>
+                <div>Mié</div>
+                <div>Jue</div>
+                <div>Vie</div>
+                <div>Sáb</div>
+                <div>Dom</div>
+            </div>
+            
+            <div id="calendario"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>AlergiTrack © 2025 - Seguimiento de alergias</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
