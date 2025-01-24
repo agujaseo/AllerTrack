@@ -467,14 +467,47 @@ class AlergiTrackApp {
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            // Validar campos
+            const errores = [];
+            const fechaSeleccionada = new Date(form.fecha.value);
+            const hoy = new Date();
+            hoy.setHours(0,0,0,0); // Ignorar la hora para comparar solo la fecha
+            
+            if (fechaSeleccionada > hoy) {
+                errores.push('La fecha no puede ser futura');
+                form.fecha.classList.add('campo-invalido');
+            } else {
+                form.fecha.classList.remove('campo-invalido');
+            }
+
+            if (isNaN(form.dosis.value) || form.dosis.value <= 0) {
+                errores.push('La dosis debe ser un número positivo');
+                form.dosis.classList.add('campo-invalido');
+            } else {
+                form.dosis.classList.remove('campo-invalido');
+            }
+
+            if (errores.length > 0) {
+                this.mostrarNotificacion(errores.join('\n'));
+                return;
+            }
+
             const nuevosDatos = {
                 fecha: form.fecha.value,
                 hora: form.hora.value,
                 dosis: parseFloat(form.dosis.value),
                 observaciones: form.observaciones.value.trim()
             };
-            this.editarInsensibilizacion(insensibilizacion.id, nuevosDatos);
-            modal.remove();
+
+            try {
+                this.editarInsensibilizacion(insensibilizacion.id, nuevosDatos);
+                modal.remove();
+                this.mostrarNotificacion('Insensibilización actualizada correctamente');
+            } catch (error) {
+                this.mostrarNotificacion('Error al actualizar la insensibilización');
+                console.error(error);
+            }
         });
 
         form.querySelector('.cancelar-edicion').addEventListener('click', () => {
@@ -529,39 +562,6 @@ class AlergiTrackApp {
         }, 3000);
     }
 
-    eliminarReaccion(id) {
-        this.reacciones = this.reacciones.filter(r => r.id !== id);
-        this.guardarDatos();
-        this.renderCalendario();
-        this.mostrarNotificacion('Reacción eliminada correctamente');
-    }
-
-    editarReaccion(id, nuevosDatos) {
-        const index = this.reacciones.findIndex(r => r.id === id);
-        if (index !== -1) {
-            this.reacciones[index] = { ...this.reacciones[index], ...nuevosDatos };
-            this.guardarDatos();
-            this.renderCalendario();
-            this.mostrarNotificacion('Reacción actualizada correctamente');
-        }
-    }
-
-    eliminarInsensibilizacion(id) {
-        this.insensibilizaciones = this.insensibilizaciones.filter(i => i.id !== id);
-        this.guardarDatos();
-        this.renderCalendario();
-        this.mostrarNotificacion('Insensibilización eliminada correctamente');
-    }
-
-    editarInsensibilizacion(id, nuevosDatos) {
-        const index = this.insensibilizaciones.findIndex(i => i.id === id);
-        if (index !== -1) {
-            this.insensibilizaciones[index] = { ...this.insensibilizaciones[index], ...nuevosDatos };
-            this.guardarDatos();
-            this.renderCalendario();
-            this.mostrarNotificacion('Insensibilización actualizada correctamente');
-        }
-    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
